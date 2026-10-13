@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommerceIQ | Log Analyzer</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div style="display:flex; justify-content:flex-end; padding:16px 24px;">
+    <button id="logoutButton" type="button">Logout</button>
+</div>
+
+<aside class="sidebar">
+    <div class="brand">Commerce<span>IQ</span></div>
+    <p class="eyebrow">WORKSPACE</p>
+    <a class="nav active" href="/">▦ &nbsp; Overview</a>
+    <a class="nav" href="#transactions">▤ &nbsp; Transactions</a>
+    <div class="sidebar-bottom">
+        <div class="status-dot"></div>
+        <span>Analyzer online</span>
+    </div>
+</aside>
+
+<main class="main">
+    <header class="topbar">
+        <div>
+            <p class="eyebrow">ANALYTICS / OVERVIEW</p>
+            <h1>Transaction Overview</h1>
+            <p class="muted">Your commerce data, decoded.</p>
+        </div>
+        <button id="refreshBtn" class="refresh">↻ Refresh data</button>
+    </header>
+
+    <section class="stats">
+        <article class="stat-card">
+            <p>Total transactions</p>
+            <h2 id="totalTransactions">--</h2>
+            <span class="muted">All recorded logs</span>
+        </article>
+        <article class="stat-card">
+            <p>Valid transactions</p>
+            <h2 id="validTransactions">--</h2>
+            <span class="positive">Eligible for analysis</span>
+        </article>
+        <article class="stat-card">
+            <p>Invalid transactions</p>
+            <h2 id="invalidTransactions">--</h2>
+            <span class="muted">Excluded from revenue</span>
+        </article>
+        <article class="stat-card revenue-card">
+            <p>Total valid revenue</p>
+            <h2 id="totalRevenue">₹--</h2>
+            <span class="positive">Validated transaction value</span>
+        </article>
+
+        <article class="stat-card">
+            <p>Top-selling category</p>
+            <h2 id="topCategory">--</h2>
+            <span class="positive" id="topCategoryQuantity">Items sold: --</span>
+        </article>
+
+    </section>
+
+    <section class="charts">
+        <article class="panel">
+            <div class="panel-heading">
+                <div>
+                    <h3>Revenue by category</h3>
+                    <p class="muted">Breakdown of valid sales</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </article>
+        <article class="panel">
+            <div class="panel-heading">
+                <div>
+                    <h3>Log quality</h3>
+                    <p class="muted">Valid vs invalid records</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="qualityChart"></canvas>
+            </div>
+        </article>
+    </section>
+
+
+    <section class="panel" style="margin-bottom: 24px;">
+        <div class="panel-heading">
+            <div>
+                <h3>Daily revenue</h3>
+                <p class="muted">Revenue from valid transactions by date</p>
+            </div>
+        </div>
+        <div class="chart-container">
+            <canvas id="dailyRevenueChart"></canvas>
+        </div>
+    </section>
+
+
+    <section class="panel transactions-panel" id="transactions">
+        <div class="panel-heading">
+            <div>
+                <h3>Recent transactions</h3>
+                <p class="muted">Records retrieved from PostgreSQL</p>
+            </div>
+            <select id="filterSelect" aria-label="Filter transactions">
+                <option value="all">All logs</option>
+                <option value="valid">Valid only</option>
+                <option value="invalid">Invalid only</option>
+            </select>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Unit price</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody id="transactionRows">
+                <tr><td colspan="6">Loading transactions...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p id="message" class="muted message"></p>
+    </section>
+
+    <footer>CommerceIQ · Functional E-Commerce Log Analyzer</footer>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>
